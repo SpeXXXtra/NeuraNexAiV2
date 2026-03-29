@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NeuraNex AI — Intelligent Solutions</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --black: #080808;
+  --white: #f5f5f0;
+  --grey-400: #888882;
+  --grey-600: #4a4a46;
+  --grey-800: #1e1e1c;
+  --grey-900: #141412;
+  --accent: #c8ff00;
+  --accent-glow: rgba(200,255,0,0.12);
+  --teal: #00e5c8;
+  --border: rgba(255,255,255,0.07);
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Mono', monospace;
+  background: var(--black);
+  color: var(--white);
+  overflow-x: hidden;
+}
+
+/* CURSOR */
+#cur-dot, #cur-ring {
+  position: fixed;
+  pointer-events: none;
+  border-radius: 50%;
+  z-index: 9999;
+  top: 0; left: 0;
+  transform: translate(-50%, -50%);
+}
+#cur-dot { width: 8px; height: 8px; background: var(--accent); }
+#cur-ring {
+  width: 34px; height: 34px;
+  border: 1.5px solid rgba(200,255,0,0.5);
+  transition: width .22s, height .22s, opacity .2s;
+}
+body.hov #cur-ring { width: 54px; height: 54px; opacity: 0.5; }
+
+/* NAV */
+nav {
+  position: fixed; top:0; left:0; right:0; z-index:200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 22px 48px;
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(24px);
+  background: rgba(8,8,8,0.8);
+}
+.nav-logo {
+  font-family: 'Syne',sans-serif; font-size:17px; font-weight:800;
+  letter-spacing:-.02em; display:flex; align-items:center; gap:9px;
+  text-decoration:none; color:var(--white);
+}
+.logo-dot { width:8px; height:8px; background:var(--accent); border-radius:50%; animation:blink 2s ease infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.25} }
+.nav-links { display:flex; gap:36px; list-style:none; }
+.nav-links a {
+  font-size:11px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--grey-400); text-decoration:none; transition:color .2s;
+}
+.nav-links a:hover { color:var(--white); }
+.nav-cta {
+  font-family:'Syne',sans-serif; font-size:11px; font-weight:700;
+  letter-spacing:.1em; text-transform:uppercase;
+  padding:10px 22px; background:var(--accent); color:#000;
+  text-decoration:none; display:inline-block;
+  transition:background .2s, transform .15s;
+}
+.nav-cta:hover { background:#d4ff1a; transform:translateY(-1px); }
+
+/* HERO */
+.hero {
+  min-height:100vh; display:grid; grid-template-columns:1fr 1fr;
+  padding-top:80px; position:relative; overflow:hidden;
+}
+.hero-grid {
+  position:absolute; inset:0; pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.027) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.027) 1px,transparent 1px);
+  background-size:80px 80px;
+}
+.hero-vig {
+  position:absolute; inset:0; pointer-events:none;
+  background:radial-gradient(ellipse at center,transparent 35%,var(--black) 100%);
+}
+.hero-left {
+  display:flex; flex-direction:column; justify-content:center;
+  padding:80px 48px; position:relative; z-index:2;
+}
+.hero-tag {
+  display:inline-flex; align-items:center; gap:10px;
+  font-size:10px; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--accent); margin-bottom:30px;
+  animation:fadeUp .7s ease .1s both;
+}
+.hero-tag::before { content:''; width:22px; height:1px; background:var(--accent); }
+.hero-h1 {
+  font-family:'Syne',sans-serif;
+  font-size:clamp(50px,5.5vw,88px); font-weight:800;
+  line-height:.93; letter-spacing:-.04em; margin-bottom:28px;
+  animation:fadeUp .7s ease .25s both;
+}
+.hero-h1 em { font-style:italic; font-family:'Instrument Serif',serif; font-weight:400; color:var(--grey-400); }
+.hero-h1 .ac { color:var(--accent); }
+.hero-sub {
+  font-size:13px; line-height:1.85; color:var(--grey-400);
+  max-width:400px; margin-bottom:44px;
+  animation:fadeUp .7s ease .4s both;
+}
+.hero-btns { display:flex; align-items:center; gap:24px; animation:fadeUp .7s ease .55s both; }
+.btn-pri {
+  font-family:'Syne',sans-serif; font-size:11px; font-weight:700;
+  letter-spacing:.12em; text-transform:uppercase;
+  padding:15px 34px; background:var(--accent); color:#000;
+  text-decoration:none; display:inline-block;
+  transition:background .2s, box-shadow .2s, transform .15s;
+}
+.btn-pri:hover { background:#d4ff1a; transform:translateY(-2px); box-shadow:0 12px 36px rgba(200,255,0,.22); }
+.btn-ghost {
+  font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--grey-400); text-decoration:none;
+  display:flex; align-items:center; gap:8px; transition:color .2s;
+}
+.btn-ghost:hover { color:var(--white); }
+.btn-ghost::after { content:'→'; }
+.hero-right {
+  display:flex; align-items:center; justify-content:center;
+  position:relative; z-index:2; padding:80px 48px;
+  animation:fadeIn 1.1s ease .5s both;
+}
+
+/* ORBITAL */
+.orb { position:relative; width:400px; height:400px; }
+.orb-core {
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  width:110px; height:110px;
+  background:var(--grey-900); border:1px solid var(--border); border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Syne',sans-serif; font-size:10px; font-weight:700;
+  letter-spacing:.08em; text-align:center; line-height:1.4; z-index:4;
+}
+.orb-core::after {
+  content:''; position:absolute; inset:-18px; border-radius:50%;
+  background:radial-gradient(circle,rgba(200,255,0,.1) 0%,transparent 70%);
+  animation:gp 3s ease infinite;
+}
+@keyframes gp { 0%,100%{opacity:.3} 50%{opacity:1} }
+.ring { position:absolute; top:50%; left:50%; border-radius:50%; border:1px dashed rgba(255,255,255,.07); }
+.r1 { width:190px; height:190px; margin:-95px 0 0 -95px; animation:spin 11s linear infinite; }
+.r2 { width:290px; height:290px; margin:-145px 0 0 -145px; animation:spin 19s linear infinite reverse; }
+.r3 { width:390px; height:390px; margin:-195px 0 0 -195px; animation:spin 28s linear infinite; }
+@keyframes spin { to{transform:rotate(360deg)} }
+.onode {
+  position:absolute; width:40px; height:40px;
+  background:var(--grey-900); border:1px solid var(--border);
+  border-radius:50%; display:flex; align-items:center; justify-content:center;
+}
+.onode svg { width:16px; height:16px; stroke:var(--accent); stroke-width:1.5; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+
+/* STATS */
+.stats {
+  display:grid; grid-template-columns:repeat(4,1fr);
+  background:var(--grey-900); border-top:1px solid var(--border);
+}
+.stat { padding:28px 36px; border-right:1px solid var(--border); }
+.stat:last-child { border-right:none; }
+.stat-n { font-family:'Syne',sans-serif; font-size:34px; font-weight:800; letter-spacing:-.04em; }
+.stat-n span { color:var(--accent); }
+.stat-l { font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--grey-400); margin-top:4px; }
+
+/* MARQUEE */
+.mq-wrap { overflow:hidden; border-top:1px solid var(--border); border-bottom:1px solid var(--border); background:var(--grey-900); padding:18px 0; }
+.mq-track { display:flex; width:max-content; animation:mq 28s linear infinite; }
+.mq-item {
+  display:flex; align-items:center; gap:44px; padding:0 44px;
+  font-family:'Syne',sans-serif; font-size:12px; font-weight:700;
+  letter-spacing:.04em; color:var(--grey-600); white-space:nowrap;
+}
+.mq-item span { color:var(--accent); }
+@keyframes mq { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+/* SECTION BASE */
+section { padding:110px 48px; }
+.sec-tag {
+  font-size:10px; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--accent); margin-bottom:14px;
+  display:flex; align-items:center; gap:12px;
+}
+.sec-tag::after { content:''; width:50px; height:1px; background:var(--accent); opacity:.4; }
+.sec-title {
+  font-family:'Syne',sans-serif; font-size:clamp(34px,4vw,62px);
+  font-weight:800; letter-spacing:-.04em; line-height:.95; margin-bottom:20px;
+}
+.sec-title em { font-style:italic; font-family:'Instrument Serif',serif; font-weight:400; color:var(--grey-400); }
+
+/* SERVICES */
+#services { background:var(--grey-900); border-top:1px solid var(--border); }
+.svc-head { display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:end; margin-bottom:72px; }
+.svc-intro { font-size:12px; line-height:1.9; color:var(--grey-400); max-width:360px; }
+.svc-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); }
+.svc-card { background:var(--grey-900); padding:44px 36px; position:relative; overflow:hidden; transition:background .3s; }
+.svc-card:hover { background:var(--grey-800); }
+.svc-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:var(--accent); transform:scaleX(0); transform-origin:left;
+  transition:transform .4s cubic-bezier(.25,.46,.45,.94);
+}
+.svc-card:hover::before { transform:scaleX(1); }
+.svc-pri { font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:var(--accent); margin-bottom:22px; display:inline-flex; align-items:center; gap:6px; }
+.svc-pri.b { color:var(--teal); }
+.svc-pri.c { color:var(--grey-400); }
+.pdot { width:4px; height:4px; background:currentColor; border-radius:50%; }
+.svc-ico {
+  width:52px; height:52px; border:1px solid var(--border);
+  display:flex; align-items:center; justify-content:center;
+  margin-bottom:24px; transition:border-color .3s;
+}
+.svc-ico svg { width:22px; height:22px; stroke:var(--white); stroke-width:1.5; fill:none; stroke-linecap:round; stroke-linejoin:round; transition:stroke .3s; }
+.svc-card:hover .svc-ico { border-color:var(--accent); }
+.svc-card:hover .svc-ico svg { stroke:var(--accent); }
+.svc-title { font-family:'Syne',sans-serif; font-size:19px; font-weight:700; letter-spacing:-.02em; margin-bottom:14px; }
+.svc-desc { font-size:12px; line-height:1.9; color:var(--grey-400); }
+.svc-num { position:absolute; bottom:24px; right:28px; font-family:'Syne',sans-serif; font-size:60px; font-weight:800; color:rgba(255,255,255,.03); line-height:1; letter-spacing:-.05em; }
+
+/* PROJECTS */
+#projects { background:var(--black); border-top:1px solid var(--border); }
+.proj-head { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:72px; }
+.proj-hint { font-size:12px; color:var(--grey-400); max-width:260px; line-height:1.8; }
+.proj-list { display:flex; flex-direction:column; gap:1px; background:var(--border); }
+.proj-item { background:var(--black); overflow:hidden; transition:background .3s; cursor:pointer; }
+.proj-item:hover { background:var(--grey-900); }
+.proj-row { display:grid; grid-template-columns:70px 1fr 180px 190px 60px; align-items:center; gap:32px; padding:32px 44px; }
+.proj-idx { font-family:'Syne',sans-serif; font-size:13px; font-weight:700; color:var(--grey-600); }
+.proj-name { font-family:'Syne',sans-serif; font-size:20px; font-weight:700; letter-spacing:-.02em; }
+.proj-cat { font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); background:var(--accent-glow); padding:5px 10px; white-space:nowrap; display:inline-block; }
+.proj-tech { font-size:11px; color:var(--grey-400); }
+.proj-arr { font-size:18px; color:var(--grey-600); text-align:right; transition:color .2s, transform .2s; }
+.proj-item:hover .proj-arr { color:var(--accent); transform:translateX(4px); }
+.proj-detail { display:none; padding:0 44px 36px; grid-template-columns:1fr 1fr; gap:52px; }
+.proj-item.open .proj-detail { display:grid; }
+.proj-item.open .proj-row { border-bottom:1px solid var(--border); }
+.dl { font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:var(--grey-600); margin-bottom:10px; }
+.dt { font-size:12px; line-height:1.9; color:var(--grey-400); }
+.fl { list-style:none; }
+.fl li { font-size:12px; color:var(--grey-400); padding:8px 0; border-bottom:1px solid var(--border); display:flex; gap:10px; }
+.fl li::before { content:'—'; color:var(--accent); flex-shrink:0; }
+
+/* PROCESS */
+#process { background:var(--grey-900); border-top:1px solid var(--border); }
+.proc-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border); margin-top:72px; }
+.proc-step { background:var(--grey-900); padding:44px 32px; position:relative; }
+.ps-num { font-family:'Syne',sans-serif; font-size:76px; font-weight:800; color:rgba(255,255,255,.035); line-height:1; margin-bottom:28px; letter-spacing:-.05em; }
+.ps-title { font-family:'Syne',sans-serif; font-size:17px; font-weight:700; letter-spacing:-.02em; margin-bottom:14px; }
+.ps-desc { font-size:12px; line-height:1.9; color:var(--grey-400); }
+.ps-conn { position:absolute; top:56px; right:-1px; width:18px; height:1px; background:var(--accent); z-index:1; }
+.proc-step:last-child .ps-conn { display:none; }
+
+/* TECH */
+#tech { background:var(--black); border-top:1px solid var(--border); }
+.tech-head { display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:end; margin-bottom:72px; }
+.tech-desc { font-size:12px; color:var(--grey-400); line-height:1.9; max-width:340px; }
+.tech-grid { display:grid; grid-template-columns:repeat(6,1fr); gap:1px; background:var(--border); }
+.tech-item { background:var(--black); padding:28px 20px; text-align:center; transition:background .2s; }
+.tech-item:hover { background:var(--grey-900); }
+.tech-ico {
+  display:flex; align-items:center; justify-content:center;
+  margin-bottom:10px; height:32px;
+}
+.tech-ico svg { width:26px; height:26px; stroke:var(--grey-400); stroke-width:1.4; fill:none; stroke-linecap:round; stroke-linejoin:round; transition:stroke .2s; }
+.tech-item:hover .tech-ico svg { stroke:var(--accent); }
+.tech-name { font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--grey-400); }
+
+/* CONTACT */
+#contact {
+  background:var(--grey-900); border-top:1px solid var(--border);
+  padding:110px 48px 120px; position:relative; overflow:hidden;
+}
+.contact-glow {
+  position:absolute; top:0; right:-200px; pointer-events:none;
+  width:600px; height:600px;
+  background:radial-gradient(circle,rgba(200,255,0,.05) 0%,transparent 70%);
+}
+.ct-layout { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:start; position:relative; z-index:1; }
+.ct-left {}
+.ct-tag { justify-content:flex-start; }
+.ct-h { font-family:'Syne',sans-serif; font-size:clamp(38px,4.5vw,72px); font-weight:800; letter-spacing:-.04em; line-height:.93; margin-bottom:22px; }
+.ct-h em { font-style:italic; font-family:'Instrument Serif',serif; font-weight:400; color:var(--grey-400); }
+.ct-sub { font-size:12px; color:var(--grey-400); line-height:1.9; max-width:380px; margin-bottom:48px; }
+.ct-email {
+  display:inline-flex; align-items:center; gap:10px;
+  font-family:'Syne',sans-serif; font-size:13px; font-weight:700;
+  color:var(--accent); text-decoration:none; letter-spacing:-.01em;
+  transition:gap .2s; margin-bottom:44px;
+}
+.ct-email:hover { gap:18px; }
+.ct-cards { display:flex; flex-direction:column; gap:1px; border:1px solid var(--border); background:var(--border); }
+.ct-card { background:var(--grey-900); padding:22px 26px; display:flex; align-items:center; gap:14px; text-align:left; transition:background .2s; }
+.ct-card:hover { background:var(--grey-800); }
+.ct-card-ico { flex-shrink:0; width:34px; height:34px; display:flex; align-items:center; justify-content:center; }
+.ct-card-ico svg { width:18px; height:18px; stroke:var(--accent); stroke-width:1.5; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+.ct-card-lbl { font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:var(--grey-600); margin-bottom:4px; }
+.ct-card-val { font-family:'Syne',sans-serif; font-size:12px; font-weight:600; color:var(--white); text-decoration:none; letter-spacing:-.01em; transition:color .2s; display:block; }
+a.ct-card-val:hover { color:var(--accent); }
+
+/* CONTACT FORM */
+.ct-right {}
+.cf-wrap {
+  background:var(--black); border:1px solid var(--border);
+  padding:44px 40px; position:relative; overflow:hidden;
+}
+.cf-wrap::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg, var(--accent), var(--teal), transparent);
+}
+.cf-row { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:20px; }
+.cf-group { display:flex; flex-direction:column; gap:8px; margin-bottom:20px; }
+.cf-group:last-of-type { margin-bottom:0; }
+.cf-label {
+  font-size:9px; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--grey-600); display:flex; align-items:center; gap:6px;
+}
+.cf-label .opt { color:var(--grey-600); font-size:8px; letter-spacing:.1em; opacity:.7; }
+.cf-input, .cf-textarea, .cf-select {
+  background:var(--grey-900); border:1px solid var(--border);
+  color:var(--white); font-family:'DM Mono',monospace; font-size:12px;
+  padding:13px 16px; outline:none; transition:border-color .2s, background .2s;
+  width:100%; appearance:none; -webkit-appearance:none;
+}
+.cf-input::placeholder, .cf-textarea::placeholder { color:var(--grey-600); }
+.cf-input:focus, .cf-textarea:focus, .cf-select:focus {
+  border-color:var(--accent); background:rgba(200,255,0,.03);
+}
+.cf-textarea { resize:vertical; min-height:110px; line-height:1.7; }
+.cf-select { cursor:pointer; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888882' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 14px center; padding-right:36px; }
+.cf-select option { background:var(--grey-900); color:var(--white); }
+.cf-btn {
+  width:100%; margin-top:28px;
+  font-family:'Syne',sans-serif; font-size:11px; font-weight:700;
+  letter-spacing:.14em; text-transform:uppercase;
+  padding:16px 24px; background:var(--accent); color:#000;
+  border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px;
+  transition:background .2s, transform .15s, box-shadow .2s;
+}
+.cf-btn:hover:not(:disabled) { background:#d4ff1a; transform:translateY(-2px); box-shadow:0 12px 36px rgba(200,255,0,.22); }
+.cf-btn:disabled { opacity:.5; cursor:not-allowed; transform:none; box-shadow:none; }
+.cf-btn svg { width:14px; height:14px; stroke:#000; stroke-width:2; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+.cf-status {
+  margin-top:18px; font-size:11px; letter-spacing:.05em; padding:13px 16px;
+  display:none; align-items:center; gap:10px;
+}
+.cf-status.success { display:flex; border:1px solid rgba(200,255,0,.3); background:rgba(200,255,0,.06); color:var(--accent); }
+.cf-status.error   { display:flex; border:1px solid rgba(255,80,80,.3); background:rgba(255,80,80,.06); color:#ff6060; }
+.cf-status svg { width:14px; height:14px; flex-shrink:0; }
+
+/* SETUP BANNER */
+.setup-banner {
+  background: rgba(200,255,0,.07); border:1px solid rgba(200,255,0,.2);
+  padding:14px 18px; margin-bottom:28px; font-size:10px; letter-spacing:.04em;
+  color:var(--grey-400); line-height:1.7;
+}
+.setup-banner strong { color:var(--accent); }
+.setup-banner a { color:var(--accent); text-decoration:underline; }
+
+@media(max-width:960px){
+  .ct-layout { grid-template-columns:1fr; gap:48px; }
+  .cf-row { grid-template-columns:1fr; }
+  .cf-wrap { padding:28px 22px; }
+}
+
+/* FOOTER */
+footer { background:var(--black); border-top:1px solid var(--border); padding:36px 48px; display:flex; align-items:center; justify-content:space-between; }
+.ft-logo { font-family:'Syne',sans-serif; font-size:15px; font-weight:800; letter-spacing:-.02em; }
+.ft-copy { font-size:11px; color:var(--grey-600); }
+.ft-links { display:flex; gap:28px; }
+.ft-links a { font-size:11px; color:var(--grey-600); text-decoration:none; transition:color .2s; }
+.ft-links a:hover { color:var(--white); }
+
+/* REVEAL */
+.reveal { opacity:0; transform:translateY(26px); transition:opacity .75s cubic-bezier(.25,.46,.45,.94), transform .75s cubic-bezier(.25,.46,.45,.94); }
+.reveal.on { opacity:1; transform:translateY(0); }
+
+/* KEYFRAMES */
+@keyframes fadeUp { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+@keyframes spin360 { to { transform:rotate(360deg); } }
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width:3px; }
+::-webkit-scrollbar-track { background:var(--black); }
+::-webkit-scrollbar-thumb { background:var(--grey-600); }
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  nav { padding:18px 20px; }
+  .nav-links { display:none; }
+  .hero { grid-template-columns:1fr; }
+  .hero-right { display:none; }
+  .hero-left { padding:60px 20px; }
+  section { padding:80px 20px; }
+  .stats { grid-template-columns:repeat(2,1fr); }
+  .svc-head { grid-template-columns:1fr; gap:20px; }
+  .svc-grid { grid-template-columns:1fr; }
+  .proj-head { flex-direction:column; gap:20px; align-items:flex-start; }
+  .proj-row { grid-template-columns:48px 1fr 48px; gap:16px; padding:22px 20px; }
+  .proj-cat,.proj-tech { display:none; }
+  .proj-detail { grid-template-columns:1fr; padding:0 20px 28px; }
+  .proc-grid { grid-template-columns:1fr 1fr; }
+  .tech-head { grid-template-columns:1fr; gap:20px; }
+  .tech-grid { grid-template-columns:repeat(3,1fr); }
+  .ct-cards { flex-direction:column; }
+  .ct-card { border-right:none; border-bottom:1px solid var(--border); }
+  .ct-card:last-child { border-bottom:none; }
+  footer { flex-direction:column; gap:18px; text-align:center; }
+}
+</style>
+</head>
+<body>
+
+<div id="cur-dot"></div>
+<div id="cur-ring"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">
+    <div class="logo-dot"></div>
+    NeuraNex AI
+  </a>
+  <ul class="nav-links">
+    <li><a href="#services" onclick="goto(event,'services')">Services</a></li>
+    <li><a href="#projects" onclick="goto(event,'projects')">Projects</a></li>
+    <li><a href="#process" onclick="goto(event,'process')">Process</a></li>
+    <li><a href="#contact" onclick="goto(event,'contact')">Contact</a></li>
+  </ul>
+  <a class="nav-cta" href="#contact" onclick="goto(event,'contact')">Start a Project</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-grid"></div>
+  <div class="hero-vig"></div>
+  <div class="hero-left">
+    <div class="hero-tag">AI-First Studio · Dubai, UAE</div>
+    <h1 class="hero-h1">We Build<br><em>Intelligent</em><br><span class="ac">AI Systems</span></h1>
+    <p class="hero-sub">NeuraNex AI designs and deploys autonomous AI agents, RAG-powered systems, and modern digital products that help enterprises operate at machine speed.</p>
+    <div class="hero-btns">
+      <a class="btn-pri" href="#projects" onclick="goto(event,'projects')">View Our Work</a>
+      <a class="btn-ghost" href="#contact" onclick="goto(event,'contact')">Let's Talk</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="orb">
+      <div class="ring r1">
+        <!-- Bot / AI agent icon -->
+        <div class="onode" style="top:-20px;left:50%;transform:translateX(-50%)">
+          <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><line x1="12" y1="7" x2="12" y2="11"/><line x1="8" y1="15" x2="8" y2="15" stroke-width="2"/><line x1="12" y1="15" x2="12" y2="15" stroke-width="2"/><line x1="16" y1="15" x2="16" y2="15" stroke-width="2"/></svg>
+        </div>
+      </div>
+      <div class="ring r2">
+        <!-- Zap / speed icon -->
+        <div class="onode" style="top:-20px;left:50%;transform:translateX(-50%)">
+          <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <!-- Bar chart / analytics icon -->
+        <div class="onode" style="bottom:-20px;left:50%;transform:translateX(-50%)">
+          <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        </div>
+      </div>
+      <div class="ring r3">
+        <!-- Building / property icon -->
+        <div class="onode" style="top:-20px;left:50%;transform:translateX(-50%)">
+          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <!-- Camera / photo editing icon -->
+        <div class="onode" style="right:-20px;top:50%;transform:translateY(-50%)">
+          <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+        </div>
+        <!-- Monitor / web dev icon -->
+        <div class="onode" style="bottom:-20px;left:50%;transform:translateX(-50%)">
+          <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+      </div>
+      <div class="orb-core">NEURAL<br>CORE</div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat"><div class="stat-n">4<span>+</span></div><div class="stat-l">AI Agents Deployed</div></div>
+  <div class="stat"><div class="stat-n">100<span>%</span></div><div class="stat-l">Agentic-First Approach</div></div>
+  <div class="stat"><div class="stat-n">3<span>x</span></div><div class="stat-l">Avg. Efficiency Gain</div></div>
+  <div class="stat"><div class="stat-n">24<span>/7</span></div><div class="stat-l">Autonomous Operation</div></div>
+</div>
+
+<!-- MARQUEE -->
+<div class="mq-wrap">
+  <div class="mq-track">
+    <div class="mq-item">Agentic AI <span>—</span> RAG Systems <span>—</span> LLM Integration <span>—</span> Sales Automation <span>—</span> Property AI <span>—</span> Web Development <span>—</span> Custom Software <span>—</span> Document Intelligence <span>—</span> AI Editing Tools <span>—</span></div>
+    <div class="mq-item">Agentic AI <span>—</span> RAG Systems <span>—</span> LLM Integration <span>—</span> Sales Automation <span>—</span> Property AI <span>—</span> Web Development <span>—</span> Custom Software <span>—</span> Document Intelligence <span>—</span> AI Editing Tools <span>—</span></div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="svc-head">
+    <div>
+      <div class="sec-tag reveal">What We Do</div>
+      <h2 class="sec-title reveal">Capabilities<br><em>that scale</em></h2>
+    </div>
+    <p class="svc-intro reveal">We prioritize autonomous AI agent systems above all — then modern web experiences, and finally bespoke software. Everything we build compounds in value over time.</p>
+  </div>
+  <div class="svc-grid reveal">
+    <!-- Agentic AI -->
+    <div class="svc-card">
+      <div class="svc-pri"><div class="pdot"></div> Priority 01 — Core</div>
+      <div class="svc-ico">
+        <!-- CPU / neural network icon -->
+        <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>
+      </div>
+      <h3 class="svc-title">Agentic AI Solutions</h3>
+      <p class="svc-desc">Fully autonomous AI agents that think, plan, and act. RAG-powered document intelligence, multi-agent pipelines, and LLM orchestration that replaces repetitive human workflows.</p>
+      <div class="svc-num">01</div>
+    </div>
+    <!-- Web Experiences -->
+    <div class="svc-card">
+      <div class="svc-pri b"><div class="pdot"></div> Priority 02 — Growth</div>
+      <div class="svc-ico">
+        <!-- Layout / web icon -->
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+      </div>
+      <h3 class="svc-title">Modern Web Experiences</h3>
+      <p class="svc-desc">High-performance, visually striking websites and web applications. From landing pages to full-stack platforms — built to convert and built to last.</p>
+      <div class="svc-num">02</div>
+    </div>
+    <!-- Custom Software -->
+    <div class="svc-card">
+      <div class="svc-pri c"><div class="pdot"></div> Priority 03 — Custom</div>
+      <div class="svc-ico">
+        <!-- Code icon -->
+        <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      </div>
+      <h3 class="svc-title">Custom Software</h3>
+      <p class="svc-desc">Bespoke software solutions crafted around your exact business requirements. Scalable backends, workflow automation, and system integrations.</p>
+      <div class="svc-num">03</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="proj-head">
+    <div>
+      <div class="sec-tag reveal">Case Studies</div>
+      <h2 class="sec-title reveal">Live <em>Projects</em></h2>
+    </div>
+    <p class="proj-hint reveal">Click any project to explore what we built and how.</p>
+  </div>
+  <div class="proj-list reveal">
+    <div class="proj-item" onclick="toggleProj(this)">
+      <div class="proj-row">
+        <div class="proj-idx">01</div>
+        <div class="proj-name">Agentic Document Guide</div>
+        <div class="proj-cat">RAG · AI Agents</div>
+        <div class="proj-tech">LangChain · OpenAI · Vector DB</div>
+        <div class="proj-arr">→</div>
+      </div>
+      <div class="proj-detail">
+        <div>
+          <div class="dl">The Problem</div>
+          <p class="dt">Enterprise companies drowning in thousands of unstructured internal documents — policies, reports, manuals — with no efficient way to query or extract insights at scale.</p>
+        </div>
+        <div>
+          <div class="dl">What We Built</div>
+          <ul class="fl">
+            <li>RAG pipeline ingesting and chunking unstructured documents</li>
+            <li>AI agent layer for multi-step reasoning and document traversal</li>
+            <li>Natural language query interface for non-technical staff</li>
+            <li>Source citation and confidence scoring on every response</li>
+            <li>Role-based access for department-level document segmentation</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="proj-item" onclick="toggleProj(this)">
+      <div class="proj-row">
+        <div class="proj-idx">02</div>
+        <div class="proj-name">Sales &amp; Lead Conversion Agent</div>
+        <div class="proj-cat">Agentic AI · Sales</div>
+        <div class="proj-tech">GPT-4 · CRM API · Voice Analytics</div>
+        <div class="proj-arr">→</div>
+      </div>
+      <div class="proj-detail">
+        <div>
+          <div class="dl">The Problem</div>
+          <p class="dt">Brokerages relying on reactive lead handling — high-intent prospects falling through the cracks due to delayed follow-up, no behavioral intelligence, and overloaded relationship managers.</p>
+        </div>
+        <div>
+          <div class="dl">What We Built</div>
+          <ul class="fl">
+            <li>Call behavior analysis engine identifying high-intent signals</li>
+            <li>Autonomous outreach agent for real-time lead engagement</li>
+            <li>Intelligent scheduler syncing leads with relationship managers</li>
+            <li>Lead scoring dashboard with predictive conversion rates</li>
+            <li>CRM auto-population from call transcripts</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="proj-item" onclick="toggleProj(this)">
+      <div class="proj-row">
+        <div class="proj-idx">03</div>
+        <div class="proj-name">AI Property Management Agent</div>
+        <div class="proj-cat">Agentic AI · PropTech</div>
+        <div class="proj-tech">Multi-Agent · SMS API · Scheduling</div>
+        <div class="proj-arr">→</div>
+      </div>
+      <div class="proj-detail">
+        <div>
+          <div class="dl">The Problem</div>
+          <p class="dt">Property companies overseeing thousands of rental units — maintenance requests, tenant complaints, contractor coordination, and rent collection demanding constant human attention.</p>
+        </div>
+        <div>
+          <div class="dl">What We Built</div>
+          <ul class="fl">
+            <li>24/7 tenant communication agent with issue triaging</li>
+            <li>Automated maintenance scheduling and contractor dispatch</li>
+            <li>Smart rent reminder sequences with escalation logic</li>
+            <li>Issue classification and priority routing system</li>
+            <li>Real-time property operations dashboard</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="proj-item" onclick="toggleProj(this)">
+      <div class="proj-row">
+        <div class="proj-idx">04</div>
+        <div class="proj-name">AI Photo Editing Assistant</div>
+        <div class="proj-cat">AI Vision · Creative</div>
+        <div class="proj-tech">Computer Vision · Stable Diffusion</div>
+        <div class="proj-arr">→</div>
+      </div>
+      <div class="proj-detail">
+        <div>
+          <div class="dl">The Problem</div>
+          <p class="dt">Photography studios spending 60–70% of project time on post-production — color grading, retouching, masking — with tight client turnaround deadlines.</p>
+        </div>
+        <div>
+          <div class="dl">What We Built</div>
+          <ul class="fl">
+            <li>Automated color grading with style-consistent LUT generation</li>
+            <li>AI skin retouching preserving natural texture</li>
+            <li>One-click background removal with edge refinement</li>
+            <li>Intelligent lighting correction and exposure balancing</li>
+            <li>Batch processing pipeline for studio-scale workflows</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="sec-tag reveal">How We Work</div>
+  <h2 class="sec-title reveal">From <em>idea</em><br>to production</h2>
+  <div class="proc-grid reveal">
+    <div class="proc-step">
+      <div class="ps-num">01</div>
+      <h3 class="ps-title">Discovery &amp; Mapping</h3>
+      <p class="ps-desc">We audit your workflows, data assets, and bottlenecks. We map where AI agents can replace or augment human effort with maximum ROI.</p>
+      <div class="ps-conn"></div>
+    </div>
+    <div class="proc-step">
+      <div class="ps-num">02</div>
+      <h3 class="ps-title">Architecture Design</h3>
+      <p class="ps-desc">We design the agent architecture, data pipelines, and system integrations before writing a single line of code. No surprises later.</p>
+      <div class="ps-conn"></div>
+    </div>
+    <div class="proc-step">
+      <div class="ps-num">03</div>
+      <h3 class="ps-title">Build &amp; Iterate</h3>
+      <p class="ps-desc">We build in rapid sprints with weekly demos. You see working software — not decks — at every checkpoint. Feedback loops are short.</p>
+      <div class="ps-conn"></div>
+    </div>
+    <div class="proc-step">
+      <div class="ps-num">04</div>
+      <h3 class="ps-title">Deploy &amp; Evolve</h3>
+      <p class="ps-desc">Production deployment with monitoring, logging, and ongoing model evaluation. AI systems improve over time — so does our engagement.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TECH -->
+<section id="tech">
+  <div class="tech-head">
+    <div>
+      <div class="sec-tag reveal">Technology</div>
+      <h2 class="sec-title reveal">Built on the<br><em>right stack</em></h2>
+    </div>
+    <p class="tech-desc reveal">We use frontier AI models alongside robust engineering infrastructure — no black boxes, no vendor lock-in.</p>
+  </div>
+  <div class="tech-grid reveal">
+
+    <!-- GPT-4o: brain/sparkle icon -->
+    <div class="tech-item">
+      <div class="tech-ico">
+        <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 6v6l4 2"/><circle cx="19" cy="5" r="3"/></svg>
+      </div>
+      <div class="tech-name">GPT-4o</div>
+    </div>
+
+    <!-- LangChain: link icon -->
+    <div class="tech-item">
+      <div class="tech-ico">
+        <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+      </div>
+      <div class="tech-name">LangChain</div>
+    </div>
+
+    <!-- Pinecone: database icon -->
+    <div class="tech-item">
+      <div class="tech-ico">
+        <svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+      </div>
+      <div class="tech-name">Pinecone</div>
+    </div>
+
+    <!-- React: atom icon -->
+    <div class="tech-item">
+      <div class="tech-ico">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><path d="M20.2 20.2c2.04-2.03.02-7.36-4.5-11.9C11.17 3.86 5.8 1.83 3.8 3.8c-2.04 2.04-.02 7.37 4.5 11.9 4.54 4.52 9.87 6.55 11.9 4.5z"/><path d="M3.8 20.2c2.03 2.05 7.36.03 11.9-4.5 4.52-4.53 6.55-9.86 4.5-11.9-2.04-2.04-7.37-.02-11.9 4.5-4.53 4.54-6.56 9.87-4.5 11.9z"/></svg>
+      </div>
+      <div class="tech-name">React</div>
+    </div>
+
+    <!-- Python: terminal icon -->
+    <div class="tech-item">
+      <div class="tech-ico">
+        <svg viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+      </div>
+      <div class="tech-name">Python</div>
+    </div>
+
+    <!-- AWS: cloud icon -->
+    <div class="tech-item">
+      <div class="tech-ico">
+        <svg viewBox="0 0 24 24"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+      </div>
+      <div class="tech-name">AWS</div>
+    </div>
+
+    <!-- n8n: workflow/git icon -->
+    <div class="tech-item">
+      <div class="tech-ico">
+        <svg viewBox="0 0 24 24"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" y1="9" x2="6" y2="21"/></svg>
+      </div>
+      <div class="tech-name">n8n</div>
+    </div>
+
+    <!-- PostgreSQL: server icon -->
+    <div class="tech-item">
+      <div class="tech-ico">
+        <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+      </div>
+      <div class="tech-name">PostgreSQL</div>
+    </div>
+
+    <!-- FastAPI: zap/rocket icon -->
+    <div class="tech-item">
+      <div class="tech-ico">
+        <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      </div>
+      <div class="tech-name">FastAPI</div>
+    </div>
+
+    <!-- Next.js: layers icon -->
+    <div class="tech-item">
+      <div class="tech-ico">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+      </div>
+      <div class="tech-name">Next.js</div>
+    </div>
+
+    <!-- Claude API: message-square icon -->
+    <div class="tech-item">
+      <div class="tech-ico">
+        <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </div>
+      <div class="tech-name">Claude API</div>
+    </div>
+
+    <!-- Weaviate: search icon -->
+    <div class="tech-item">
+      <div class="tech-ico">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </div>
+      <div class="tech-name">Weaviate</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-glow"></div>
+  <div class="ct-layout">
+
+    <!-- LEFT: info -->
+    <div class="ct-left">
+      <div class="sec-tag ct-tag reveal">Let's Build Together</div>
+      <h2 class="ct-h reveal">Ready to<br><em>deploy AI?</em></h2>
+      <p class="ct-sub reveal">Whether you're automating a workflow, building an intelligent product, or modernising your digital presence — we're the team to do it.</p>
+      <a class="ct-email reveal" href="mailto:neuranexai.admin@gmail.com">neuranexai.admin@gmail.com →</a>
+
+      <div class="ct-cards reveal">
+        <div class="ct-card">
+          <div class="ct-card-ico">
+            <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.81A16 16 0 0 0 15.19 16l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </div>
+          <div>
+            <div class="ct-card-lbl">Phone</div>
+            <a class="ct-card-val" href="tel:+971507296273">+971 50 729 6273</a>
+          </div>
+        </div>
+        <div class="ct-card">
+          <div class="ct-card-ico">
+            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div>
+            <div class="ct-card-lbl">Location</div>
+            <div class="ct-card-val">Dubai, UAE</div>
+          </div>
+        </div>
+        <div class="ct-card">
+          <div class="ct-card-ico">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div>
+            <div class="ct-card-lbl">Availability</div>
+            <div class="ct-card-val">Sun – Thu, 9AM – 6PM GST</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: form -->
+    <div class="ct-right reveal">
+      <div class="cf-wrap">
+
+        <!-- ════════════════════════════════════════════════════
+             ONE-TIME EMAILJS SETUP (remove this banner after)
+             1. Go to https://www.emailjs.com and create a free account
+             2. Add Gmail service → connect neuranexai.admin@gmail.com
+             3. Create an Email Template with these variables:
+                {{from_name}}, {{from_email}}, {{phone}},
+                {{solution_type}}, {{message}}
+             4. Replace the three values below in the script:
+                EMAILJS_PUBLIC_KEY, EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID
+        ════════════════════════════════════════════════════ -->
+        
+
+        <div class="cf-row">
+          <div class="cf-group" style="margin-bottom:0">
+            <label class="cf-label" for="cf-name">Full Name</label>
+            <input class="cf-input" id="cf-name" type="text" placeholder="Jane Smith" required autocomplete="name">
+          </div>
+          <div class="cf-group" style="margin-bottom:0">
+            <label class="cf-label" for="cf-phone">Phone Number</label>
+            <input class="cf-input" id="cf-phone" type="tel" placeholder="+971 50 000 0000" autocomplete="tel">
+          </div>
+        </div>
+
+        <div class="cf-group">
+          <label class="cf-label" for="cf-email">Email Address</label>
+          <input class="cf-input" id="cf-email" type="email" placeholder="jane@company.com" required autocomplete="email">
+        </div>
+
+        <div class="cf-group">
+          <label class="cf-label" for="cf-type">Solution Type</label>
+          <select class="cf-select" id="cf-type">
+            <option value="" disabled selected>Select a solution type…</option>
+            <option value="Agentic AI Solution">Agentic AI Solution</option>
+            <option value="RAG / Document Intelligence">RAG / Document Intelligence</option>
+            <option value="Sales &amp; Lead Automation">Sales &amp; Lead Automation</option>
+            <option value="Property Management AI">Property Management AI</option>
+            <option value="AI Editing Assistant">AI Editing Assistant</option>
+            <option value="Modern Website / Web App">Modern Website / Web App</option>
+            <option value="Custom Software">Custom Software</option>
+            <option value="Other / Not Sure Yet">Other / Not Sure Yet</option>
+          </select>
+        </div>
+
+        <div class="cf-group">
+          <label class="cf-label" for="cf-msg">
+            Tell Us More <span class="opt">(optional)</span>
+          </label>
+          <textarea class="cf-textarea" id="cf-msg" placeholder="Describe your use-case, current pain points, or the outcome you're looking for…"></textarea>
+        </div>
+
+        <button class="cf-btn" id="cf-submit" onclick="submitForm()">
+          <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          Send Message
+        </button>
+
+        <div class="cf-status" id="cf-success">
+          <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Message sent — we'll be in touch within one business day.
+        </div>
+        <div class="cf-status" id="cf-error">
+          <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Something went wrong. Please email us at neuranexai.admin@gmail.com
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-logo">NeuraNex AI</div>
+  <div class="ft-copy">© 2025 NeuraNex AI. All rights reserved.</div>
+  <div class="ft-links">
+    <a href="#">LinkedIn</a>
+    <a href="#">Instagram</a>
+    <a href="#">GitHub</a>
+  </div>
+</footer>
+
+<!-- EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<script>
+// ════════════════════════════════════════════════════════════════
+//  EMAILJS CONFIGURATION
+//  Replace these three values with your real EmailJS credentials
+//  after completing the one-time setup at https://www.emailjs.com
+// ════════════════════════════════════════════════════════════════
+const EMAILJS_PUBLIC_KEY  = 'TOIqxXlZLuIxj6644';   // Account → API Keys
+const EMAILJS_SERVICE_ID  = 'service_lsmmb2n';   // Email Services tab
+const EMAILJS_TEMPLATE_ID = 'template_wu29tns';  // Email Templates tab
+
+// Initialise EmailJS
+(function(){
+  if (typeof emailjs !== 'undefined') emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+})();
+
+// ── FORM SUBMIT
+function submitForm() {
+  const nameEl   = document.getElementById('cf-name');
+  const emailEl  = document.getElementById('cf-email');
+  const phoneEl  = document.getElementById('cf-phone');
+  const typeEl   = document.getElementById('cf-type');
+  const msgEl    = document.getElementById('cf-msg');
+  const btn      = document.getElementById('cf-submit');
+  const success  = document.getElementById('cf-success');
+  const error    = document.getElementById('cf-error');
+
+  // Hide previous status
+  success.style.display = 'none';
+  error.style.display   = 'none';
+
+  // Basic validation
+  if (!nameEl.value.trim()) { nameEl.focus(); nameEl.style.borderColor='#ff6060'; return; }
+  if (!emailEl.value.trim() || !emailEl.validity.valid) { emailEl.focus(); emailEl.style.borderColor='#ff6060'; return; }
+  nameEl.style.borderColor  = '';
+  emailEl.style.borderColor = '';
+
+  // Loading state
+  btn.disabled   = true;
+  btn.innerHTML  = '<svg viewBox="0 0 24 24" style="animation:spin360 .8s linear infinite"><path d="M21 12a9 9 0 1 1-6.22-8.56" stroke="#000" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg> Sending…';
+
+  const templateParams = {
+    from_name    : nameEl.value.trim(),
+    from_email   : emailEl.value.trim(),
+    phone        : phoneEl.value.trim() || 'Not provided',
+    solution_type: typeEl.value        || 'Not selected',
+    message      : msgEl.value.trim()  || 'No additional message.'
+  };
+
+  if (typeof emailjs === 'undefined' || EMAILJS_PUBLIC_KEY === 'YOUR_PUBLIC_KEY') {
+    // Demo mode — simulate success so the UI can be previewed
+    setTimeout(() => {
+      btn.disabled  = false;
+      btn.innerHTML = '<svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Send Message';
+      error.style.display   = 'none';
+      success.style.display = 'flex';
+      success.textContent   = '✓ (Demo) Form is working — add your EmailJS keys to enable real delivery.';
+    }, 1200);
+    return;
+  }
+
+  emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
+    .then(() => {
+      btn.disabled  = false;
+      btn.innerHTML = '<svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Send Message';
+      success.style.display = 'flex';
+      // Reset fields
+      nameEl.value = ''; emailEl.value = ''; phoneEl.value = '';
+      typeEl.selectedIndex = 0; msgEl.value = '';
+    })
+    .catch(() => {
+      btn.disabled  = false;
+      btn.innerHTML = '<svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Send Message';
+      error.style.display = 'flex';
+    });
+}
+
+// ── CURSOR
+const dot  = document.getElementById('cur-dot');
+const ring = document.getElementById('cur-ring');
+let mx = window.innerWidth/2, my = window.innerHeight/2;
+let rx = mx, ry = my;
+
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+
+(function tick(){
+  dot.style.left  = mx + 'px';
+  dot.style.top   = my + 'px';
+  rx += (mx - rx) * 0.13;
+  ry += (my - ry) * 0.13;
+  ring.style.left = rx + 'px';
+  ring.style.top  = ry + 'px';
+  requestAnimationFrame(tick);
+})();
+
+document.querySelectorAll('a, button, .proj-item, .svc-card, .tech-item, .cf-btn').forEach(el => {
+  el.addEventListener('mouseenter', () => document.body.classList.add('hov'));
+  el.addEventListener('mouseleave', () => document.body.classList.remove('hov'));
+});
+
+// ── SMOOTH SCROLL
+function goto(e, id) {
+  e.preventDefault();
+  const target = document.getElementById(id);
+  if (!target) return;
+  const navH = document.querySelector('nav').offsetHeight;
+  window.scrollTo({ top: target.getBoundingClientRect().top + window.pageYOffset - navH, behavior: 'smooth' });
+}
+
+// ── PROJECT TOGGLE
+function toggleProj(el) {
+  el.classList.toggle('open');
+}
+
+// ── SCROLL REVEAL
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(en => { if (en.isIntersecting) en.target.classList.add('on'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+</script>
+</body>
+</html>
